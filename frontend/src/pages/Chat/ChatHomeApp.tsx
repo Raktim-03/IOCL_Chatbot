@@ -20,13 +20,10 @@ function ChatHomeApp() {
     const trimmed = pendingMessage.trim()
     if (!trimmed) return
 
-    // 1. Add User's message to the UI
     setMessages((prev) => [...prev, `You: ${trimmed}`])
     setPendingMessage('')
 
     try {
-      // 2. Send the message to your Backend
-      // Replace localhost:3000 with your actual backend port if different
       const response = await fetch("http://localhost:3000/api/chat", {
         method: "POST",
         headers: {
@@ -38,7 +35,7 @@ function ChatHomeApp() {
 
       const data = await response.json();
 
-      // 3. Add the Bot's response to the UI
+
       if (response.ok && data.reply) {
         setMessages((prev) => [...prev, `Bot: ${data.reply}`]);
       } else {

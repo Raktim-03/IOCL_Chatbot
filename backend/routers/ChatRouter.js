@@ -30,7 +30,6 @@ router.post('/chat', ensureAuthenticated, upload.single('pdf'), async(req, res) 
 
         const botReply = AuthenticatorResponse.data.response;
 
-        //for chat history
 
         await ChatModel.findOneAndUpdate(
             {userID},

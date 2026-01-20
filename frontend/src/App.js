@@ -21,15 +21,12 @@ function App() {
       <Routes>
         <Route path="/" element={<Navigate to="/login" />} />
         
-        {/* Pass 'setisAuthenticated' as a prop so the Login page can unlock the app */}
         <Route path='/login' element={<Login setisAuthenticated={setisAuthenticated} />} />
         
         <Route path='/signup' element={<Signup />} />
         
-        {/* Protected route for the IOCL Chatbot Home page */}
         <Route path='/home' element={<PrivateRoute element={<ChatHomeApp />} />} />
         
-        {/* Catch-all redirect to login for any undefined paths */}
         <Route path="*" element={<Navigate to="/login" />} />
       </Routes>
     </div>
