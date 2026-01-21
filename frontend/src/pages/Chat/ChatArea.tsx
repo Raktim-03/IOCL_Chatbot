@@ -1,18 +1,28 @@
-import { FormEvent, useRef } from 'react'
+import { FormEvent, useRef, ChangeEvent } from 'react'
 
 interface ChatAreaProps {
   messages: string[]
   pendingMessage: string
   setPendingMessage: (message: string) => void
   onSubmit: (event: FormEvent<HTMLFormElement>) => void
+  onFileUpload: (file: File) => void
   hasMessages: boolean
+  isLoading: boolean
 }
 
-function ChatArea({ messages, pendingMessage, setPendingMessage, onSubmit, hasMessages }: ChatAreaProps) {
+function ChatArea({ messages, pendingMessage, setPendingMessage, onSubmit, onFileUpload, hasMessages, isLoading }: ChatAreaProps) {
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileClick = () => {
     fileInputRef.current?.click()
+  }
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0]
+    if (file) {
+      onFileUpload(file)
+      event.target.value = ''
+    }
   }
 
   return (
@@ -22,16 +32,22 @@ function ChatArea({ messages, pendingMessage, setPendingMessage, onSubmit, hasMe
           {messages.map((message, index) => {
             const isUser = message.startsWith("You:");
             const isBot = message.startsWith("Bot:");
+            const isSystem = message.startsWith("System:");
             
             return (
               <div 
                 key={index} 
-                className={`chat-bubble ${isUser ? 'user' : isBot ? 'bot' : ''}`}
+                className={`chat-bubble ${isUser ? 'user' : isBot ? 'bot' : isSystem ? 'system' : ''}`}
               >
                 <span>{message}</span>
               </div>
             );
           })}
+          {isLoading && (
+            <div className="chat-bubble bot">
+              <span>Bot: Thinking...</span>
+            </div>
+          )}
         </div>
       )}
 
@@ -42,15 +58,18 @@ function ChatArea({ messages, pendingMessage, setPendingMessage, onSubmit, hasMe
         <button 
           className="add" 
           type="button" 
-          title="Upload file"
+          title="Upload PDF"
           onClick={handleFileClick}
+          disabled={isLoading}
         >
           <i className="fa-solid fa-plus" aria-hidden="true" />
         </button>
         <input
           ref={fileInputRef}
           type="file"
+          accept=".pdf"
           style={{ display: 'none' }}
+          onChange={handleFileChange}
           aria-hidden="true"
         />
         <input
@@ -59,9 +78,10 @@ function ChatArea({ messages, pendingMessage, setPendingMessage, onSubmit, hasMe
           placeholder="Enter your query related to IOCL"
           value={pendingMessage}
           onChange={(event) => setPendingMessage(event.target.value)}
+          disabled={isLoading}
         />
-        <button className="btn1" type="submit">
-          Search
+        <button className="btn1" type="submit" disabled={isLoading}>
+          {isLoading ? 'Sending...' : 'Search'}
         </button>
       </form>
     </div>

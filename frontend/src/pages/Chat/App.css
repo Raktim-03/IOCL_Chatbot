@@ -334,3 +334,164 @@
     color: white;
   }
 }
+
+/* Chat History Section in Sidebar */
+.chat-history-section {
+  padding: 15px;
+  border-top: 1px solid rgba(26, 23, 59, 0.1);
+  margin-top: 15px;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  padding: 0 5px;
+}
+
+.history-header h4 {
+  font-size: 0.95rem;
+  color: rgb(26, 23, 59);
+  font-weight: 600;
+  margin: 0;
+  background: transparent;
+}
+
+.clear-all-btn {
+  background: transparent;
+  border: none;
+  color: #e74c3c;
+  font-size: 0.75rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.clear-all-btn:hover {
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.history-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 12px;
+  background-color: rgb(237, 232, 254);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.history-item:hover {
+  background-color: rgb(220, 210, 255);
+}
+
+.history-item.active {
+  background-color: rgb(200, 185, 255);
+  border-left: 3px solid rgb(41, 36, 74);
+}
+
+.history-item-content {
+  flex: 1;
+  overflow: hidden;
+  background: transparent;
+}
+
+.history-item-title {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: rgb(26, 23, 59);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background: transparent;
+  display: block;
+}
+
+.history-item-date {
+  font-size: 0.7rem;
+  color: rgba(26, 23, 59, 0.6);
+  background: transparent;
+  display: block;
+  margin-top: 2px;
+}
+
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: rgba(26, 23, 59, 0.4);
+  cursor: pointer;
+  padding: 4px 6px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  transition: all 0.2s;
+  opacity: 0;
+}
+
+.history-item:hover .delete-btn {
+  opacity: 1;
+}
+
+.delete-btn:hover {
+  color: #e74c3c;
+  background: rgba(231, 76, 60, 0.1);
+}
+
+.no-history {
+  text-align: center;
+  color: rgba(26, 23, 59, 0.5);
+  font-size: 0.85rem;
+  padding: 20px 10px;
+  background: transparent;
+}
+
+.history-item-content {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  overflow: hidden;
+  background: transparent;
+}
+
+.history-item-content i {
+  color: rgb(26, 23, 59);
+  font-size: 0.9rem;
+  background: transparent;
+}
+
+.history-item-info {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: transparent;
+}
+
+.history-date {
+  font-size: 0.8rem;
+  color: rgb(26, 23, 59);
+  background: transparent;
+}
+
+.history-count {
+  font-size: 0.7rem;
+  color: rgba(26, 23, 59, 0.6);
+  background: transparent;
+}
+
+.history-header span {
+  font-size: 0.95rem;
+  color: rgb(26, 23, 59);
+  font-weight: 600;
+  background: transparent;
+}

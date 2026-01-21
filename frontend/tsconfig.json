@@ -26,8 +26,7 @@
     "noEmit": true                     /* Tells TS not to output files (Vite/Babel handles that) */
   },
   "include": [
-    "src",                             /* Looks for all files in your src folder */
-    "frontend/src"                     /* Ensures it catches your frontend subdirectory */
+    "src/**/*"
   ],
   "exclude": [
     "node_modules", 

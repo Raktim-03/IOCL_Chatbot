@@ -9,7 +9,7 @@ from unstructured.partition.pdf import partition_pdf
 from langchain_groq import ChatGroq
 from langchain_chroma import Chroma
 from langchain_core.documents import Document
-from langchain_community.embeddings import SentenceTransformerEmbeddings # Free local embeddings
+from langchain_huggingface import HuggingFaceEmbeddings # Updated import
 
 load_dotenv()
 
@@ -17,7 +17,7 @@ app = FastAPI()
 
 # Groq & DB Setup
 
-embeddings = SentenceTransformerEmbeddings(model_name="all-MiniLM-L6-v2")
+embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
 llm = ChatGroq(model="llama-3.3-70b-versatile", groq_api_key=os.getenv("GROQ_API_KEY"))
 
 # Database path

@@ -6,14 +6,17 @@ function RefreshHandler({setisAuthenticated}) {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        if(localStorage.getItem('token')){
+        const token = localStorage.getItem('token');
+        if(token){
             setisAuthenticated(true);
-            if(location.pathname == '/' ||
-                location.pathname == '/login' ||
-                location.pathname == '/signup'
+            if(location.pathname === '/' ||
+                location.pathname === '/login' ||
+                location.pathname === '/signup'
             ){
                 navigate('/home',{replace : false})
             }
+        } else {
+            setisAuthenticated(false);
         }
     },[location, navigate, setisAuthenticated])
     return (
