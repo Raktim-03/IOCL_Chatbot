@@ -28,8 +28,14 @@ pnpm-debug.log*
 /frontend/.env
 
 # Python (chatbot)
+/chatbot/venv
 /chatbot/.venv/
 __pycache__/
 *.py[cod]
 *.pyo
 /chatbot/.pytest_cache/
+
+
+# Vector DB / runtime data
+chatbot/db/
+chatbot/temp_pdfs/

@@ -90,78 +90,85 @@ function ChatHomeApp() {
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault()
-    const trimmed = pendingMessage.trim()
-    if (!trimmed || isLoading) return
+  event.preventDefault();
+  const trimmed = pendingMessage.trim();
+  if (!trimmed || isLoading) return;
 
-    setMessages((prev) => [...prev, `You: ${trimmed}`])
-    setPendingMessage('')
-    setIsLoading(true)
+  setMessages((prev) => [...prev, `You: ${trimmed}`]);
+  setPendingMessage("");
+  setIsLoading(true);
 
-    try {
-      const response = await fetch(`${API_URL}/chat`, {
-        method: "POST",
-        headers: getAuthHeaders(),
-        body: JSON.stringify({ 
-          message: trimmed,
-          session_id: sessionId 
-        }),
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.reply) {
-        setMessages((prev) => [...prev, `Bot: ${data.reply}`]);
-        if (data.session_id) {
-          setSessionId(data.session_id);
-          fetchChatSessions(); // Refresh sessions list
-        }
-      } else {
-        setMessages((prev) => [...prev, `Bot: ${data.message || "Something went wrong."}`]);
-      }
-    } catch (error) {
-      console.error("Chat Error:", error);
-      setMessages((prev) => [...prev, "System: Connection to server failed."]);
-    } finally {
-      setIsLoading(false)
+  try {
+    const formData = new FormData();
+    formData.append("question", trimmed);
+    if (sessionId) {
+      formData.append("session_id", sessionId);
     }
+
+    const response = await fetch(`${FASTAPI_URL}/chat`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (response.ok && data.answer) {
+      setMessages((prev) => [...prev, `Bot: ${data.answer}`]);
+      if (data.session_id) {
+        setSessionId(data.session_id);
+        fetchChatSessions();
+      }
+    } else {
+      setMessages((prev) => [...prev, "Bot: Something went wrong."]);
+    }
+  } catch (error) {
+    console.error("Chat Error:", error);
+    setMessages((prev) => [...prev, "System: Failed to connect to AI server."]);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
+ const handleFileUpload = async (file: File) => {
+  if (!file || !file.name.endsWith(".pdf")) {
+    setMessages((prev) => [...prev, "System: Please upload a PDF file."]);
+    return;
   }
 
-  const handleFileUpload = async (file: File) => {
-    if (!file || !file.name.endsWith('.pdf')) {
-      setMessages((prev) => [...prev, "System: Please upload a PDF file."]);
-      return;
+  setMessages((prev) => [...prev, `You: [Uploading ${file.name}...]`]);
+  setIsLoading(true);
+
+  try {
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const response = await fetch(`${FASTAPI_URL}/upload`, {
+      method: "POST",
+      body: formData,
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      setMessages((prev) => [
+        ...prev,
+        "Bot: PDF uploaded successfully! What would you like to know from it?",
+      ]);
+    } else {
+      setMessages((prev) => [
+        ...prev,
+        `Bot: Failed to upload PDF.`,
+      ]);
     }
-
-    setMessages((prev) => [...prev, `You: [Uploading ${file.name}...]`]);
-    setIsLoading(true);
-
-    try {
-      const formData = new FormData();
-      formData.append('pdf', file);
-
-      const response = await fetch(`${API_URL}/upload`, {
-        method: "POST",
-        headers: {
-          "Authorization": localStorage.getItem('token') || ""
-        },
-        body: formData,
-      });
-
-      const data = await response.json();
-
-      if (response.ok && data.success) {
-        setMessages((prev) => [...prev, `Bot: PDF uploaded successfully! What would you like to know from it?`]);
-      } else {
-        setMessages((prev) => [...prev, `Bot: Failed to upload PDF. ${data.message || ""}`]);
-      }
-    } catch (error) {
-      console.error("Upload Error:", error);
-      setMessages((prev) => [...prev, "System: Failed to upload file."]);
-    } finally {
-      setIsLoading(false);
-    }
+  } catch (error) {
+    console.error("Upload Error:", error);
+    setMessages((prev) => [...prev, "System: Failed to upload file."]);
+  } finally {
+    setIsLoading(false);
   }
+};
+
 
   const handleNewChat = () => {
     setMessages([]);
