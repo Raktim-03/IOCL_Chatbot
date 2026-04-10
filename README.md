@@ -73,6 +73,13 @@ uvicorn main:app --reload
 
 Create `.env` files in `backend/` and `chatbot/` as needed (already ignored in .gitignore).
 
+##Screenshots
+![4](https://github.com/user-attachments/assets/8a36fb28-ef23-47e5-be78-abc1e9370106)
+![3](https://github.com/user-attachments/assets/d95333f2-2432-4ba6-9c6f-838a87fa99e1)
+![2](https://github.com/user-attachments/assets/dba4348f-28ab-4103-a3ba-68b406d1a55d)
+![1](https://github.com/user-attachments/assets/5aefbd3c-fe0e-4db5-9fe4-83d6b3f8e00c)
+
+
 ## Contributing
 
 Please follow the project structure and commit conventions. ::
