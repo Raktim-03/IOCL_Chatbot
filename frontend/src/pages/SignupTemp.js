@@ -15,7 +15,7 @@ function Signup() {
     const {name,value} = e.target;
     console.log(name, value);
     const copySignupInfo =  {...SignupInfo};
-    copySignupInfo [name] = value;
+    copySignupInfo[name] = value;
     setSignupInfo(copySignupInfo);
   }
 
@@ -28,7 +28,7 @@ function Signup() {
       return handleError('name, email, password all are required');
     }
     try{
-      const url = "http://localhost:3000/auth/signup"
+      const url = `${process.env.REACT_APP_API_URL}/auth/signup`
       const response = await fetch(url,{
         method : "POST",
         headers: {
